@@ -13,8 +13,8 @@
 
         body {
             font-family: 'Arial', sans-serif;
-            background-color: #1e1e1e; /* Black background */
-            color: #ddd; /* Light gray text color */
+            background-color: #f7f7f8; /* Light background like ChatGPT */
+            color: #333; /* Dark text for easy readability */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -23,65 +23,111 @@
         }
 
         .chat-container {
-            width: 90%;
-            max-width: 800px;
+            width: 100%;
+            max-width: 900px;
             height: 80vh;
-            background-color: #2c2c2c; /* Dark gray container background */
+            background-color: #ffffff; /* White background for the chat container */
             border-radius: 12px;
             display: flex;
             flex-direction: column;
+            box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
             overflow: hidden;
-            box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .chat-header {
+            background-color: #0078d4; /* ChatGPT-like header color */
+            color: white;
+            padding: 16px;
+            font-size: 18px;
+            font-weight: bold;
+            text-align: center;
         }
 
         .chat-box {
             flex-grow: 1;
             padding: 20px;
             overflow-y: auto;
-            background-color: #333; /* Dark gray background for chat messages */
+            background-color: #f7f7f8; /* Light background for the chat box */
             display: flex;
             flex-direction: column;
+            gap: 15px;
+            height: 100%;
+            border-bottom: 1px solid #e2e2e2;
         }
 
         .chat-message {
-            max-width: 80%;
+            max-width: 75%;
             padding: 12px;
             border-radius: 12px;
             font-size: 16px;
             line-height: 1.4;
             margin-bottom: 10px;
+            word-wrap: break-word;
         }
 
         .bot-message {
-            background-color: #444; /* Slightly lighter gray for bot messages */
+            background-color: #f0f0f0; /* Light gray for bot's messages */
             align-self: flex-start;
+            border: 1px solid #e2e2e2;
         }
 
         .user-message {
-            background-color: #666; /* Lighter gray for user messages */
+            background-color: #0078d4; /* ChatGPT-like blue for user messages */
+            color: white;
             align-self: flex-end;
+            border: 1px solid #0078d4;
+        }
+
+        .typing-indicator {
+            display: none;
+            font-style: italic;
+            color: #999;
+            padding-left: 20px;
+        }
+
+        .input-container {
+            display: flex;
+            padding: 16px;
+            background-color: #ffffff;
+            border-top: 1px solid #e2e2e2;
+            justify-content: space-between;
         }
 
         input[type="text"] {
-            width: 75%;
+            width: 85%;
+            padding: 12px;
+            font-size: 16px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            outline: none;
+            color: #333;
+        }
+
+        input[type="text"]:focus {
+            border: 1px solid #0078d4; /* Blue border when the input is focused */
+        }
+
+        button {
+            width: 10%;
             padding: 12px;
             font-size: 16px;
             border: none;
             border-radius: 8px;
-            margin: 10px;
-            background-color: #444;
+            background-color: #0078d4; /* Blue button */
             color: white;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
         }
 
-        input[type="text"]:focus {
-            box-shadow: 0px 2px 10px rgba(0, 0, 255, 0.3); /* Blue focus effect */
+        button:hover {
+            background-color: #005a8b; /* Darker blue on hover */
         }
 
         .send-upload-btn {
-            width: 15%;
+            width: 10%;
             padding: 12px;
             border: none;
-            background-color: #007BFF; /* Blue background for button */
+            background-color: #0078d4; /* Blue background for button */
             color: white;
             border-radius: 8px;
             font-size: 16px;
@@ -96,16 +142,12 @@
             background-color: #0056b3; /* Button hover effect */
         }
 
-        .send-upload-btn:active {
-            transform: translateY(1px); /* Button click effect */
-        }
-
         .chat-box::-webkit-scrollbar {
             width: 8px;
         }
 
         .chat-box::-webkit-scrollbar-thumb {
-            background-color: #007BFF; /* Scrollbar color */
+            background-color: #0078d4; /* Scrollbar color */
             border-radius: 4px;
         }
 
@@ -115,29 +157,46 @@
 
         @media (max-width: 768px) {
             .chat-container {
+                width: 95%;
+            }
+
+            .chat-header {
+                font-size: 16px;
+            }
+
+            .input-container {
                 flex-direction: column;
-                width: 90%;
-                max-width: none;
-                height: 100%;
+                align-items: center;
+            }
+
+            input[type="text"] {
+                width: 80%;
+                margin-bottom: 10px;
+            }
+
+            button {
+                width: 80%;
             }
         }
-
     </style>
 </head>
 <body>
 
 <div class="chat-container">
+    <div class="chat-header">
+        HTML Chatbot
+    </div>
+
     <div class="chat-box" id="chat-box">
         <div class="chat-message bot-message">
             <p>Hi! I'm here to help you with HTML. Ask me anything! 😊</p>
         </div>
+        <div id="typing-indicator" class="typing-indicator">Bot is typing...</div>
     </div>
 
-    <div style="display: flex; align-items: center; justify-content: space-between; padding: 10px;">
+    <div class="input-container">
         <input type="text" id="user-input" placeholder="Ask a question..." onkeypress="checkEnter(event)" />
-        <button class="send-upload-btn" onclick="sendMessage()">🔊</button>
-        <button class="send-upload-btn" onclick="document.getElementById('file-input').click()">📁</button>
-        <input type="file" id="file-input" style="display:none" onchange="handleFileUpload(event)" />
+        <button class="send-upload-btn" onclick="sendMessage()">Send</button>
     </div>
 </div>
 
@@ -162,20 +221,28 @@
         // Scroll to the latest message
         chatBox.scrollTop = chatBox.scrollHeight;
 
-        // Generate a response from the bot
-        var botResponse = getBotResponse(userInput);
+        // Show typing indicator
+        document.getElementById("typing-indicator").style.display = "block";
 
-        // Display the bot's response
-        var botMessageDiv = document.createElement("div");
-        botMessageDiv.classList.add("chat-message", "bot-message");
-        botMessageDiv.innerHTML = `<p>${botResponse}</p>`;
-        chatBox.appendChild(botMessageDiv);
+        // Simulate delay for the bot's response
+        setTimeout(() => {
+            var botResponse = getBotResponse(userInput);
 
-        // Scroll to the latest message
-        chatBox.scrollTop = chatBox.scrollHeight;
+            // Hide typing indicator
+            document.getElementById("typing-indicator").style.display = "none";
 
-        // Update chat history
-        updateChatHistory(userInput, botResponse);
+            // Display the bot's response
+            var botMessageDiv = document.createElement("div");
+            botMessageDiv.classList.add("chat-message", "bot-message");
+            botMessageDiv.innerHTML = `<p>${botResponse}</p>`;
+            chatBox.appendChild(botMessageDiv);
+
+            // Scroll to the latest message
+            chatBox.scrollTop = chatBox.scrollHeight;
+
+            // Update chat history
+            updateChatHistory(userInput, botResponse);
+        }, 1500); // 1.5 second delay for typing simulation
     }
 
     // Function to generate bot responses based on HTML-related questions
@@ -187,10 +254,10 @@
             "baat suno": "Haha, I'm all ears! 😁 Ask me about HTML, and I'll give you the details.",
             "html": "HTML stands for HyperText Markup Language. It's used to structure the content on the web. Curious about the tags or structure? Ask me!",
             "html basics": "HTML basics include tags like <html>, <head>, <body>, and elements like <div>, <p>, <h1>, <a>, etc. Want to dive into specific elements?",
-            "how to center a div": "To center a div, you can use this CSS: `display: flex; justify-content: center; align-items: center;` Simple, right? 😄",
+            "how to center a div": "To center a div using CSS, you can do something like this: `display: flex; justify-content: center; align-items: center;` Simple, right?",
             "what is a div": "A <div> is a container element used to group other content and structure the page. It's one of the most used elements in HTML!",
             "what is html5": "HTML5 is the latest version of HTML, and it adds new elements like <video>, <audio>, and <section>. It’s all about making the web more interactive!",
-            "default": "Hmm, not sure what you mean, but feel free to ask me anything related to HTML! I'm here to help."
+            "default": "Hmm, not sure what you mean, but if it's HTML-related, feel free to ask more! I’ll help out. 😊"
         };
 
         userInput = userInput.toLowerCase().trim();
@@ -210,23 +277,6 @@
         historyDiv.classList.add("history-message");
         historyDiv.innerHTML = `<strong>You:</strong> ${userInput} <br> <strong>Bot:</strong> ${botResponse}`;
         historyContent.appendChild(historyDiv);
-    }
-
-    // Handle file upload
-    function handleFileUpload(event) {
-        var file = event.target.files[0];
-        if (file && file.type === "text/html") {
-            var reader = new FileReader();
-            reader.onload = function(e) {
-                var fileContent = e.target.result;
-                // You can process the file content here (e.g., check for HTML structure, errors)
-                alert("HTML file uploaded successfully!");
-                console.log(fileContent); // Example: Logs the HTML content
-            };
-            reader.readAsText(file);
-        } else {
-            alert("Please upload a valid HTML file.");
-        }
     }
 
     // Trigger send message on pressing the Enter key
