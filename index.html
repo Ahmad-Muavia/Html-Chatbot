@@ -29,19 +29,9 @@
             background-color: #2c2c2c; /* Dark gray container background */
             border-radius: 12px;
             display: flex;
-            flex-direction: row;
+            flex-direction: column;
             overflow: hidden;
             box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.3);
-        }
-
-        .chat-history-panel {
-            background-color: #1f1f1f; /* Darker gray for history panel */
-            padding: 10px;
-            width: 250px;
-            height: 100%;
-            overflow-y: auto;
-            color: #bbb; /* Light gray text for history */
-            border-right: 2px solid #444; /* Gray border to separate history */
         }
 
         .chat-box {
@@ -130,13 +120,6 @@
                 max-width: none;
                 height: 100%;
             }
-
-            .chat-history-panel {
-                width: 100%;
-                height: 200px;
-                border-right: none;
-                border-bottom: 2px solid #444;
-            }
         }
 
     </style>
@@ -144,12 +127,6 @@
 <body>
 
 <div class="chat-container">
-    <!-- Chat history panel -->
-    <div class="chat-history-panel" id="chat-history">
-        <h4>Chat History</h4>
-        <div id="history-content"></div>
-    </div>
-
     <div class="chat-box" id="chat-box">
         <div class="chat-message bot-message">
             <p>Hi! I'm here to help you with HTML. Ask me anything! 😊</p>
@@ -205,18 +182,20 @@
     function getBotResponse(userInput) {
         const responses = {
             "hi": "Hey there! 👋 How can I help you with HTML today?",
-            "hello": "Hi! 🙋‍♂️ How can I assist you with HTML?",
-            "html": "HTML stands for HyperText Markup Language. It is the language used to create and structure content on the web. Want to know more? Feel free to ask!",
-            "html basics": "HTML basics are simple! It involves using tags like <html>, <head>, and <body>. The body contains the actual content like headings, paragraphs, links, and images.",
-            "how to center a div": "To center a div using CSS, you can do something like this: `display: flex; justify-content: center; align-items: center;`. Simple, right?",
-            "what is a div": "A <div> is a container element used to group other elements and structure the page. It's like a box to hold your content.",
-            "what is html5": "HTML5 is the latest version of HTML, and it brings cool new features like semantic elements, the <video> tag, and more. It's all about making the web more interactive!",
-            "default": "Hmm, I'm not sure what you're asking, but if it’s HTML-related, ask away! I’ll try to help out. 😊"
+            "hello": "Hi! 🙋‍♂️ What HTML topic can I assist you with?",
+            "oye": "Yo! 😄 Ask me anything about HTML, and I'll do my best to help.",
+            "baat suno": "Haha, I'm all ears! 😁 Ask me about HTML, and I'll give you the details.",
+            "html": "HTML stands for HyperText Markup Language. It's used to structure the content on the web. Curious about the tags or structure? Ask me!",
+            "html basics": "HTML basics include tags like <html>, <head>, <body>, and elements like <div>, <p>, <h1>, <a>, etc. Want to dive into specific elements?",
+            "how to center a div": "To center a div, you can use this CSS: `display: flex; justify-content: center; align-items: center;` Simple, right? 😄",
+            "what is a div": "A <div> is a container element used to group other content and structure the page. It's one of the most used elements in HTML!",
+            "what is html5": "HTML5 is the latest version of HTML, and it adds new elements like <video>, <audio>, and <section>. It’s all about making the web more interactive!",
+            "default": "Hmm, not sure what you mean, but feel free to ask me anything related to HTML! I'm here to help."
         };
 
-        // Normalize the user input to lower case and check if it matches any known responses
         userInput = userInput.toLowerCase().trim();
 
+        // Check if the input matches any predefined HTML questions or casual greetings
         if (responses[userInput]) {
             return responses[userInput];
         } else {
