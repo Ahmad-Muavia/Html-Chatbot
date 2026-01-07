@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HTML Chatbot</title>
+    <title>AI HTML Assistant</title>
     <style>
         * {
             margin: 0;
@@ -12,139 +12,261 @@
         }
 
         body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f7f7f7; /* Light background similar to ChatGPT */
-            color: #333; /* Dark text for readability */
             display: flex;
-            justify-content: center;
-            align-items: center;
             height: 100vh;
-            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            overflow: hidden;
+        }
+
+        .sidebar {
+            width: 260px;
+            background: rgba(30, 30, 30, 0.95);
+            backdrop-filter: blur(10px);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .logo {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 20px;
+        }
+
+        .sidebar h2 {
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .new-chat-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            padding: 12px 20px;
+            border-radius: 10px;
+            color: white;
+            font-size: 15px;
+            cursor: pointer;
+            margin-bottom: 20px;
+            transition: transform 0.2s, box-shadow 0.2s;
+            font-weight: 500;
+        }
+
+        .new-chat-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .sidebar .option {
+            color: #bbb;
+            font-size: 15px;
+            padding: 12px 16px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .sidebar .option:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
         }
 
         .chat-container {
-            width: 100%;
-            max-width: 800px;
-            height: 80vh;
-            background-color: #ffffff; /* White background for chat container */
-            border-radius: 12px;
+            flex: 1;
             display: flex;
             flex-direction: column;
-            box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+            background: white;
+            box-shadow: 0 0 40px rgba(0, 0, 0, 0.1);
+            border-radius: 20px 0 0 20px;
             overflow: hidden;
         }
 
         .chat-header {
-            background-color: #0078d4; /* ChatGPT-like header color */
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            padding: 16px;
+            padding: 20px 30px;
             font-size: 18px;
-            font-weight: bold;
+            font-weight: 600;
             text-align: center;
-            border-bottom: 1px solid #ddd;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
 
         .chat-box {
             flex-grow: 1;
-            padding: 20px;
+            padding: 30px;
             overflow-y: auto;
-            background-color: #f7f7f7; /* Light background for the chat box */
+            background: #f8f9fa;
             display: flex;
             flex-direction: column;
-            gap: 15px;
-            height: 100%;
-            border-bottom: 1px solid #e2e2e2;
+            gap: 20px;
         }
 
         .chat-message {
-            max-width: 75%;
-            padding: 12px;
-            border-radius: 12px;
-            font-size: 16px;
-            line-height: 1.4;
-            margin-bottom: 10px;
-            word-wrap: break-word;
+            display: flex;
+            gap: 12px;
+            animation: slideIn 0.3s ease;
         }
 
-        .bot-message {
-            background-color: #f0f0f0; /* Light gray for bot's messages */
-            align-self: flex-start;
-            border: 1px solid #e2e2e2;
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .bot-avatar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .user-avatar {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+        }
+
+        .message-content {
+            flex: 1;
+            padding: 16px 20px;
             border-radius: 12px;
+            font-size: 15px;
+            line-height: 1.6;
             max-width: 80%;
+        }
+
+        .bot-message .message-content {
+            background: white;
+            border: 1px solid #e9ecef;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
         }
 
         .user-message {
-            background-color: #0078d4; /* ChatGPT-like blue for user messages */
+            flex-direction: row-reverse;
+        }
+
+        .user-message .message-content {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            align-self: flex-end;
-            border: 1px solid #0078d4;
-            border-radius: 12px;
-            max-width: 80%;
+            border: none;
         }
 
         .typing-indicator {
             display: none;
-            font-style: italic;
-            color: #999;
-            padding-left: 20px;
+            padding: 16px 20px;
+            background: white;
+            border-radius: 12px;
+            max-width: 80px;
+            border: 1px solid #e9ecef;
+        }
+
+        .typing-indicator span {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #667eea;
+            margin: 0 2px;
+            animation: typing 1.4s infinite;
+        }
+
+        .typing-indicator span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-indicator span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes typing {
+            0%, 60%, 100% {
+                transform: translateY(0);
+            }
+            30% {
+                transform: translateY(-10px);
+            }
         }
 
         .input-container {
             display: flex;
-            padding: 16px;
-            background-color: #ffffff;
-            border-top: 1px solid #e2e2e2;
-            justify-content: space-between;
+            padding: 20px 30px;
+            background: white;
+            border-top: 1px solid #e9ecef;
+            gap: 12px;
+            align-items: center;
         }
 
         input[type="text"] {
-            width: 85%;
-            padding: 12px;
-            font-size: 16px;
-            border-radius: 8px;
-            border: 1px solid #ddd;
+            flex: 1;
+            padding: 14px 20px;
+            font-size: 15px;
+            border-radius: 25px;
+            border: 2px solid #e9ecef;
             outline: none;
-            color: #333;
+            transition: border-color 0.2s;
         }
 
         input[type="text"]:focus {
-            border: 1px solid #0078d4; /* Blue border when focused */
+            border-color: #667eea;
         }
 
-        button {
-            width: 10%;
-            padding: 12px;
-            font-size: 16px;
+        .send-btn {
+            width: 48px;
+            height: 48px;
             border: none;
-            border-radius: 8px;
-            background-color: #0078d4; /* Blue button */
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        button:hover {
-            background-color: #005a8b; /* Darker blue on hover */
-        }
-
-        .send-upload-btn {
-            width: 10%;
-            padding: 12px;
-            border: none;
-            background-color: #0078d4; /* Blue background for button */
-            color: white;
-            border-radius: 8px;
-            font-size: 16px;
             cursor: pointer;
             display: flex;
-            justify-content: center;
             align-items: center;
-            transition: background-color 0.3s ease;
+            justify-content: center;
+            transition: transform 0.2s, box-shadow 0.2s;
+            font-size: 20px;
         }
 
-        .send-upload-btn:hover {
-            background-color: #0056b3; /* Button hover effect */
+        .send-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .send-btn:active {
+            transform: scale(0.95);
         }
 
         .chat-box::-webkit-scrollbar {
@@ -152,146 +274,246 @@
         }
 
         .chat-box::-webkit-scrollbar-thumb {
-            background-color: #0078d4; /* Scrollbar color */
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             border-radius: 4px;
         }
 
         .chat-box::-webkit-scrollbar-track {
-            background-color: #f1f1f1;
+            background: #f1f1f1;
+        }
+
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+        }
+
+        .code-block {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 16px;
+            border-radius: 8px;
+            margin: 10px 0;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
         }
 
         @media (max-width: 768px) {
+            .sidebar {
+                position: fixed;
+                left: -260px;
+                height: 100vh;
+                z-index: 1000;
+            }
+
+            .sidebar.active {
+                transform: translateX(260px);
+            }
+
             .chat-container {
-                width: 95%;
+                width: 100%;
+                border-radius: 0;
             }
 
-            .chat-header {
-                font-size: 16px;
-            }
-
-            .input-container {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            input[type="text"] {
-                width: 80%;
-                margin-bottom: 10px;
-            }
-
-            button {
-                width: 80%;
+            .message-content {
+                max-width: 85%;
             }
         }
-
     </style>
 </head>
 <body>
 
+<div class="sidebar">
+    <div class="sidebar-header">
+        <div class="logo">AI</div>
+        <h2>HTML Assistant</h2>
+    </div>
+    <button class="new-chat-btn" id="newChatBtn">+ New Chat</button>
+    <div class="option">💬 Chat</div>
+    <div class="option">📜 History</div>
+    <div class="option">⚙️ Settings</div>
+</div>
+
 <div class="chat-container">
     <div class="chat-header">
-        HTML Chatbot
+        AI HTML Learning Assistant - Ask me anything about HTML, CSS, JavaScript and more!
     </div>
 
-    <div class="chat-box" id="chat-box">
+    <div class="chat-box" id="chatBox">
         <div class="chat-message bot-message">
-            <p>Hi! I'm here to help you with HTML. Ask me anything! 😊</p>
+            <div class="avatar bot-avatar">AI</div>
+            <div class="message-content">
+                <p>Hello! 👋 I'm your AI HTML Assistant. I can help you with HTML, CSS, JavaScript and web development in any language. Ask me detailed questions and I'll provide comprehensive answers!</p>
+            </div>
         </div>
-        <div id="typing-indicator" class="typing-indicator">Bot is typing...</div>
+        <div class="typing-indicator" id="typingIndicator">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
     </div>
 
     <div class="input-container">
-        <input type="text" id="user-input" placeholder="Ask a question..." onkeypress="checkEnter(event)" />
-        <button class="send-upload-btn" onclick="sendMessage()">Send</button>
+        <input type="text" id="userInput" placeholder="Ask me anything about HTML, CSS, JS..." />
+        <button class="send-btn" id="sendBtn">▶</button>
     </div>
 </div>
 
 <script>
-    // Handle sending a message from the user
-    function sendMessage() {
-        var userInput = document.getElementById("user-input").value;
-        if (userInput.trim() === "") {
-            return; // Don't send empty messages
+    const knowledgeBase = {
+        "html basics": {
+            en: "HTML (HyperText Markup Language) is the standard markup language for creating web pages. Here are the core basics:\n\n<strong>Basic Structure:</strong>\n<div class='code-block'>&lt;!DOCTYPE html&gt;\n&lt;html&gt;\n  &lt;head&gt;\n    &lt;title&gt;Page Title&lt;/title&gt;\n  &lt;/head&gt;\n  &lt;body&gt;\n    &lt;h1&gt;My First Heading&lt;/h1&gt;\n    &lt;p&gt;My first paragraph.&lt;/p&gt;\n  &lt;/body&gt;\n&lt;/html&gt;</div>\n\n<strong>Key Elements:</strong>\n• &lt;html&gt; - Root element\n• &lt;head&gt; - Contains metadata\n• &lt;body&gt; - Contains visible content\n• &lt;h1&gt; to &lt;h6&gt; - Headings\n• &lt;p&gt; - Paragraphs\n• &lt;a&gt; - Links\n• &lt;img&gt; - Images\n• &lt;div&gt; - Container\n• &lt;span&gt; - Inline container",
+            ur: "HTML (HyperText Markup Language) web pages banane ke liye standard markup language hai. Yeh hain basic concepts:\n\n<strong>Basic Structure:</strong>\n<div class='code-block'>&lt;!DOCTYPE html&gt;\n&lt;html&gt;\n  &lt;head&gt;\n    &lt;title&gt;Page Title&lt;/title&gt;\n  &lt;/head&gt;\n  &lt;body&gt;\n    &lt;h1&gt;Meri Pehli Heading&lt;/h1&gt;\n    &lt;p&gt;Mera pehla paragraph.&lt;/p&gt;\n  &lt;/body&gt;\n&lt;/html&gt;</div>\n\n<strong>Important Elements:</strong>\n• &lt;html&gt; - Root element\n• &lt;head&gt; - Metadata hai\n• &lt;body&gt; - Visible content\n• &lt;h1&gt; to &lt;h6&gt; - Headings\n• &lt;p&gt; - Paragraphs\n• &lt;a&gt; - Links\n• &lt;img&gt; - Images\n• &lt;div&gt; - Container\n• &lt;span&gt; - Inline container"
+        },
+        "div": {
+            en: "The <code>&lt;div&gt;</code> (division) element is a container used to group content and apply styles. It's one of the most commonly used HTML elements.\n\n<strong>Key Features:</strong>\n• Block-level element (takes full width)\n• Used for layout and grouping\n• Can contain any HTML elements\n• Styled with CSS\n\n<strong>Example:</strong>\n<div class='code-block'>&lt;div class=\"container\"&gt;\n  &lt;h2&gt;Welcome&lt;/h2&gt;\n  &lt;p&gt;This is inside a div&lt;/p&gt;\n&lt;/div&gt;</div>\n\n<strong>Common Uses:</strong>\n• Creating layouts\n• Grouping related content\n• Applying styles to sections\n• Building responsive designs",
+            ur: "<code>&lt;div&gt;</code> (division) element ek container hai jo content ko group karne aur styles apply karne ke liye use hota hai.\n\n<strong>Important Points:</strong>\n• Block-level element hai\n• Layout aur grouping ke liye\n• Kisi bhi HTML element ko contain kar sakta hai\n• CSS se style kiya jata hai\n\n<strong>Example:</strong>\n<div class='code-block'>&lt;div class=\"container\"&gt;\n  &lt;h2&gt;Khush Amdeed&lt;/h2&gt;\n  &lt;p&gt;Yeh div ke andar hai&lt;/p&gt;\n&lt;/div&gt;</div>\n\n<strong>Common Uses:</strong>\n• Layout banana\n• Related content ko group karna\n• Sections ko style karna"
+        },
+        "center div": {
+            en: "There are multiple ways to center a <code>&lt;div&gt;</code> element:\n\n<strong>1. Flexbox (Modern & Recommended):</strong>\n<div class='code-block'>.container {\n  display: flex;\n  justify-content: center;  /* horizontal */\n  align-items: center;      /* vertical */\n  height: 100vh;\n}</div>\n\n<strong>2. CSS Grid:</strong>\n<div class='code-block'>.container {\n  display: grid;\n  place-items: center;\n  height: 100vh;\n}</div>\n\n<strong>3. Margin Auto (Horizontal only):</strong>\n<div class='code-block'>.centered-div {\n  width: 50%;\n  margin: 0 auto;\n}</div>\n\n<strong>4. Absolute Positioning:</strong>\n<div class='code-block'>.centered-div {\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  transform: translate(-50%, -50%);\n}</div>",
+            ur: "<code>&lt;div&gt;</code> ko center karne ke kayi tareeqe hain:\n\n<strong>1. Flexbox (Modern aur Best):</strong>\n<div class='code-block'>.container {\n  display: flex;\n  justify-content: center;  /* horizontal */\n  align-items: center;      /* vertical */\n  height: 100vh;\n}</div>\n\n<strong>2. CSS Grid:</strong>\n<div class='code-block'>.container {\n  display: grid;\n  place-items: center;\n  height: 100vh;\n}</div>\n\n<strong>3. Margin Auto (Sirf Horizontal):</strong>\n<div class='code-block'>.centered-div {\n  width: 50%;\n  margin: 0 auto;\n}</div>"
+        },
+        "html5": {
+            en: "HTML5 is the latest version of HTML with powerful new features:\n\n<strong>New Semantic Elements:</strong>\n• &lt;header&gt; - Header section\n• &lt;nav&gt; - Navigation links\n• &lt;main&gt; - Main content\n• &lt;article&gt; - Independent content\n• &lt;section&gt; - Thematic grouping\n• &lt;aside&gt; - Sidebar content\n• &lt;footer&gt; - Footer section\n\n<strong>Multimedia:</strong>\n• &lt;video&gt; - Embed videos\n• &lt;audio&gt; - Embed audio\n• &lt;canvas&gt; - Draw graphics\n\n<strong>Form Enhancements:</strong>\n• New input types: email, date, number, range, color\n• Attributes: placeholder, required, pattern\n\n<strong>APIs:</strong>\n• Geolocation\n• Local Storage\n• Web Workers\n• Drag and Drop",
+            ur: "HTML5 HTML ka latest version hai powerful features ke sath:\n\n<strong>Naye Semantic Elements:</strong>\n• &lt;header&gt; - Header section\n• &lt;nav&gt; - Navigation links\n• &lt;main&gt; - Main content\n• &lt;article&gt; - Independent content\n• &lt;section&gt; - Thematic grouping\n• &lt;footer&gt; - Footer section\n\n<strong>Multimedia:</strong>\n• &lt;video&gt; - Videos embed karo\n• &lt;audio&gt; - Audio embed karo\n• &lt;canvas&gt; - Graphics draw karo\n\n<strong>APIs:</strong>\n• Geolocation\n• Local Storage\n• Web Workers"
+        },
+        "css": {
+            en: "CSS (Cascading Style Sheets) is used to style HTML elements.\n\n<strong>3 Ways to Add CSS:</strong>\n\n1. <strong>Inline CSS:</strong>\n<div class='code-block'>&lt;p style=\"color: blue;\"&gt;Blue text&lt;/p&gt;</div>\n\n2. <strong>Internal CSS:</strong>\n<div class='code-block'>&lt;style&gt;\n  p { color: blue; }\n&lt;/style&gt;</div>\n\n3. <strong>External CSS:</strong>\n<div class='code-block'>&lt;link rel=\"stylesheet\" href=\"style.css\"&gt;</div>\n\n<strong>CSS Selectors:</strong>\n• Element: <code>p { }</code>\n• Class: <code>.classname { }</code>\n• ID: <code>#idname { }</code>\n• Universal: <code>* { }</code>\n\n<strong>Common Properties:</strong>\n• color, background-color\n• font-size, font-family\n• margin, padding\n• width, height\n• display, position",
+            ur: "CSS (Cascading Style Sheets) HTML elements ko style karne ke liye use hoti hai.\n\n<strong>CSS Add Karne Ke 3 Tareeqe:</strong>\n\n1. <strong>Inline CSS:</strong>\n<div class='code-block'>&lt;p style=\"color: blue;\"&gt;Neela text&lt;/p&gt;</div>\n\n2. <strong>Internal CSS:</strong>\n<div class='code-block'>&lt;style&gt;\n  p { color: blue; }\n&lt;/style&gt;</div>\n\n3. <strong>External CSS:</strong>\n<div class='code-block'>&lt;link rel=\"stylesheet\" href=\"style.css\"&gt;</div>\n\n<strong>Important Properties:</strong>\n• color, background-color\n• font-size, font-family\n• margin, padding\n• width, height"
+        },
+        "javascript": {
+            en: "JavaScript is a programming language that makes web pages interactive.\n\n<strong>Adding JavaScript:</strong>\n<div class='code-block'>&lt;script&gt;\n  console.log('Hello World');\n&lt;/script&gt;</div>\n\n<strong>Variables:</strong>\n<div class='code-block'>let name = 'Ali';\nconst age = 25;\nvar city = 'Lahore';</div>\n\n<strong>Functions:</strong>\n<div class='code-block'>function greet(name) {\n  return 'Hello ' + name;\n}\n\nconst greet = (name) => {\n  return `Hello ${name}`;\n}</div>\n\n<strong>DOM Manipulation:</strong>\n<div class='code-block'>document.getElementById('myId');\ndocument.querySelector('.myClass');\nelement.innerHTML = 'New content';\nelement.style.color = 'red';</div>\n\n<strong>Events:</strong>\n<div class='code-block'>button.addEventListener('click', function() {\n  alert('Clicked!');\n});</div>",
+            ur: "JavaScript ek programming language hai jo web pages ko interactive banati hai.\n\n<strong>JavaScript Add Karna:</strong>\n<div class='code-block'>&lt;script&gt;\n  console.log('Hello World');\n&lt;/script&gt;</div>\n\n<strong>Variables:</strong>\n<div class='code-block'>let name = 'Ali';\nconst age = 25;\nvar city = 'Lahore';</div>\n\n<strong>Functions:</strong>\n<div class='code-block'>function greet(name) {\n  return 'Hello ' + name;\n}</div>\n\n<strong>DOM Manipulation:</strong>\n<div class='code-block'>document.getElementById('myId');\nelement.innerHTML = 'Naya content';</div>"
+        },
+        "forms": {
+            en: "HTML Forms are used to collect user input.\n\n<strong>Basic Form Structure:</strong>\n<div class='code-block'>&lt;form action=\"/submit\" method=\"POST\"&gt;\n  &lt;label for=\"name\"&gt;Name:&lt;/label&gt;\n  &lt;input type=\"text\" id=\"name\" name=\"name\" required&gt;\n  \n  &lt;label for=\"email\"&gt;Email:&lt;/label&gt;\n  &lt;input type=\"email\" id=\"email\" name=\"email\"&gt;\n  \n  &lt;button type=\"submit\"&gt;Submit&lt;/button&gt;\n&lt;/form&gt;</div>\n\n<strong>Input Types:</strong>\n• text, email, password\n• number, tel, url\n• date, time, datetime-local\n• checkbox, radio\n• file, color, range\n\n<strong>Form Attributes:</strong>\n• required - Makes field mandatory\n• placeholder - Hint text\n• pattern - Validation regex\n• min, max - Number limits\n• maxlength - Character limit",
+            ur: "HTML Forms user input lene ke liye use hote hain.\n\n<strong>Basic Form:</strong>\n<div class='code-block'>&lt;form action=\"/submit\" method=\"POST\"&gt;\n  &lt;label for=\"name\"&gt;Naam:&lt;/label&gt;\n  &lt;input type=\"text\" id=\"name\" required&gt;\n  \n  &lt;label for=\"email\"&gt;Email:&lt;/label&gt;\n  &lt;input type=\"email\" id=\"email\"&gt;\n  \n  &lt;button type=\"submit\"&gt;Submit&lt;/button&gt;\n&lt;/form&gt;</div>\n\n<strong>Input Types:</strong>\n• text, email, password\n• number, date, file\n• checkbox, radio"
+        },
+        "responsive": {
+            en: "Responsive design makes websites work on all devices.\n\n<strong>Viewport Meta Tag:</strong>\n<div class='code-block'>&lt;meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"&gt;</div>\n\n<strong>Media Queries:</strong>\n<div class='code-block'>/* Mobile First */\n.container {\n  width: 100%;\n}\n\n/* Tablet */\n@media (min-width: 768px) {\n  .container {\n    width: 750px;\n  }\n}\n\n/* Desktop */\n@media (min-width: 1024px) {\n  .container {\n    width: 1000px;\n  }\n}</div>\n\n<strong>Flexible Layouts:</strong>\n• Use percentages instead of fixed pixels\n• Flexbox for flexible containers\n• CSS Grid for complex layouts\n• max-width instead of width\n\n<strong>Responsive Images:</strong>\n<div class='code-block'>img {\n  max-width: 100%;\n  height: auto;\n}</div>",
+            ur: "Responsive design se websites har device pe kaam karti hain.\n\n<strong>Viewport Meta Tag:</strong>\n<div class='code-block'>&lt;meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"&gt;</div>\n\n<strong>Media Queries:</strong>\n<div class='code-block'>/* Mobile */\n.container {\n  width: 100%;\n}\n\n/* Tablet */\n@media (min-width: 768px) {\n  .container {\n    width: 750px;\n  }\n}</div>\n\n<strong>Responsive Images:</strong>\n<div class='code-block'>img {\n  max-width: 100%;\n  height: auto;\n}</div>"
         }
+    };
 
-        // Display the user's message
-        var chatBox = document.getElementById("chat-box");
-        var userMessageDiv = document.createElement("div");
-        userMessageDiv.classList.add("chat-message", "user-message");
-        userMessageDiv.innerHTML = `<p>${userInput}</p>`;
-        chatBox.appendChild(userMessageDiv);
-
-        // Clear the input field
-        document.getElementById("user-input").value = "";
-
-        // Scroll to the latest message
-        chatBox.scrollTop = chatBox.scrollHeight;
-
-        // Show typing indicator
-        document.getElementById("typing-indicator").style.display = "block";
-
-        // Simulate delay for the bot's response
-        setTimeout(() => {
-            var botResponse = getBotResponse(userInput);
-
-            // Hide typing indicator
-            document.getElementById("typing-indicator").style.display = "none";
-
-            // Display the bot's response
-            var botMessageDiv = document.createElement("div");
-            botMessageDiv.classList.add("chat-message", "bot-message");
-            botMessageDiv.innerHTML = `<p>${botResponse}</p>`;
-            chatBox.appendChild(botMessageDiv);
-
-            // Scroll to the latest message
-            chatBox.scrollTop = chatBox.scrollHeight;
-
-            // Update chat history
-            updateChatHistory(userInput, botResponse);
-        }, 1500); // 1.5 second delay for typing simulation
+    function detectLanguage(text) {
+        const urduPattern = /[\u0600-\u06FF]/;
+        const hindiPattern = /[\u0900-\u097F]/;
+        return urduPattern.test(text) || hindiPattern.test(text) ? 'ur' : 'en';
     }
 
-    // Function to generate bot responses based on HTML-related questions
+    function normalizeQuery(text) {
+        return text.toLowerCase()
+            .replace(/[?!.,]/g, '')
+            .trim();
+    }
+
+    function findBestMatch(query) {
+        const normalized = normalizeQuery(query);
+        
+        for (let key in knowledgeBase) {
+            if (normalized.includes(key) || key.includes(normalized)) {
+                return key;
+            }
+        }
+        
+        if (normalized.includes('center') || normalized.includes('middle')) return 'center div';
+        if (normalized.includes('form') || normalized.includes('input')) return 'forms';
+        if (normalized.includes('responsive') || normalized.includes('mobile')) return 'responsive';
+        if (normalized.includes('css') || normalized.includes('style')) return 'css';
+        if (normalized.includes('javascript') || normalized.includes('js') || normalized.includes('script')) return 'javascript';
+        if (normalized.includes('html5') || normalized.includes('semantic')) return 'html5';
+        if (normalized.includes('div') || normalized.includes('container')) return 'div';
+        if (normalized.includes('basic') || normalized.includes('start') || normalized.includes('begin')) return 'html basics';
+        
+        return null;
+    }
+
     function getBotResponse(userInput) {
-        const responses = {
-            "hi": "Hey there! 👋 How can I help you with HTML today?",
-            "hello": "Hi! 🙋‍♂️ What HTML topic can I assist you with?",
-            "oye": "Yo! 😄 Ask me anything about HTML, and I'll do my best to help.",
-            "baat sun": "Haha, I'm all ears! 😁 Ask me about HTML, and I'll give you the details.",
-            "html": "HTML stands for HyperText Markup Language. It's used to structure the content on the web. Curious about the tags or structure? Ask me!",
-            "html basics": "HTML basics include tags like <html>, <head>, <body>, and elements like <div>, <p>, <h1>, <a>, etc. Want to dive into specific elements?",
-            "how to center a div": "To center a div using CSS, you can do something like this: `display: flex; justify-content: center; align-items: center;` Simple, right?",
-            "what is a div": "A <div> is a container element used to group other content and structure the page. It's one of the most used elements in HTML!",
-            "what is html5": "HTML5 is the latest version of HTML, and it adds new elements like <video>, <audio>, and <section>. It’s all about making the web more interactive!",
-            "default": "Hmm, not sure what you mean, but if it's HTML-related, feel free to ask more! I’ll help out. 😊"
-        };
-
-        userInput = userInput.toLowerCase().trim();
-
-        // Check if the input matches any predefined HTML questions or casual greetings
-        if (responses[userInput]) {
-            return responses[userInput];
-        } else {
-            return responses["default"];
+        const lang = detectLanguage(userInput);
+        const query = normalizeQuery(userInput);
+        
+        const greetings = ['hi', 'hello', 'hey', 'salam', 'assalam', 'oye', 'baat sun'];
+        if (greetings.some(g => query.includes(g))) {
+            return lang === 'ur' 
+                ? "السلام علیکم! 👋 Main aapki HTML, CSS aur JavaScript seekhne mein madad karunga. Koi bhi sawal poochen!" 
+                : "Hello! 👋 I'm here to help you learn HTML, CSS, and JavaScript. Ask me anything!";
         }
+        
+        const topic = findBestMatch(query);
+        if (topic && knowledgeBase[topic]) {
+            return knowledgeBase[topic][lang] || knowledgeBase[topic]['en'];
+        }
+        
+        return lang === 'ur'
+            ? "Main samajh gaya! Lekin is topic ke baare mein mujhe detailed information nahi hai. Aap mujhse yeh pooch sakte hain:\n\n• HTML basics kya hain?\n• Div kaise use karte hain?\n• CSS kya hai?\n• JavaScript kaise seekhen?\n• Forms kaise banate hain?\n• Responsive design kya hai?\n• HTML5 features kya hain?\n• Div ko center kaise karen?"
+            : "I understand your question! You can ask me about:\n\n• HTML basics\n• How to use div elements\n• CSS fundamentals\n• JavaScript programming\n• Creating forms\n• Responsive design\n• HTML5 features\n• How to center a div\n\nAsk me anything specific and I'll provide detailed answers!";
     }
 
-    // Function to update chat history
-    function updateChatHistory(userInput, botResponse) {
-        var historyContent = document.getElementById("history-content");
-        var historyDiv = document.createElement("div");
-        historyDiv.classList.add("history-message");
-        historyDiv.innerHTML = `<strong>You:</strong> ${userInput} <br> <strong>Bot:</strong> ${botResponse}`;
-        historyContent.appendChild(historyDiv);
+    function sendMessage() {
+        const input = document.getElementById("userInput");
+        const userInput = input.value.trim();
+        
+        if (userInput === "") return;
+
+        const chatBox = document.getElementById("chatBox");
+        
+        const userMsg = document.createElement("div");
+        userMsg.className = "chat-message user-message";
+        userMsg.innerHTML = `
+            <div class="avatar user-avatar">U</div>
+            <div class="message-content">${userInput}</div>
+        `;
+        chatBox.appendChild(userMsg);
+        
+        input.value = "";
+        chatBox.scrollTop = chatBox.scrollHeight;
+        
+        const typing = document.getElementById("typingIndicator");
+        typing.style.display = "block";
+        chatBox.scrollTop = chatBox.scrollHeight;
+        
+        setTimeout(() => {
+            typing.style.display = "none";
+            
+            const botResponse = getBotResponse(userInput);
+            const botMsg = document.createElement("div");
+            botMsg.className = "chat-message bot-message";
+            botMsg.innerHTML = `
+                <div class="avatar bot-avatar">AI</div>
+                <div class="message-content">${botResponse}</div>
+            `;
+            chatBox.appendChild(botMsg);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }, 1000 + Math.random() * 1000);
     }
 
-    // Trigger send message on pressing the Enter key
-    function checkEnter(event) {
+    function clearChat() {
+        const chatBox = document.getElementById("chatBox");
+        chatBox.innerHTML = `
+            <div class="chat-message bot-message">
+                <div class="avatar bot-avatar">AI</div>
+                <div class="message-content">
+                    <p>New chat started! 🎉 Ask me anything about HTML, CSS, JavaScript and web development in any language!</p>
+                </div>
+            </div>
+            <div class="typing-indicator" id="typingIndicator">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        `;
+    }
+
+    // Event Listeners
+    document.getElementById("sendBtn").addEventListener("click", sendMessage);
+    
+    document.getElementById("userInput").addEventListener("keypress", function(event) {
         if (event.key === "Enter") {
-            sendMessage(); // Send message when Enter is pressed
+            sendMessage();
         }
-    }
-</script>
-
-</body>
-</html>
+    });
+    
+    document.getElementById("newChatBtn").addEventListener("click", clearChat);
