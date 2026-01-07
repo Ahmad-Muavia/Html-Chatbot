@@ -13,8 +13,8 @@
 
         body {
             font-family: 'Arial', sans-serif;
-            background-color: #f7f7f8; /* Light background like ChatGPT */
-            color: #333; /* Dark text for easy readability */
+            background-color: #f7f7f7; /* Light background similar to ChatGPT */
+            color: #333; /* Dark text for readability */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -24,13 +24,13 @@
 
         .chat-container {
             width: 100%;
-            max-width: 900px;
+            max-width: 800px;
             height: 80vh;
-            background-color: #ffffff; /* White background for the chat container */
+            background-color: #ffffff; /* White background for chat container */
             border-radius: 12px;
             display: flex;
             flex-direction: column;
-            box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+            box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.1); /* Subtle shadow */
             overflow: hidden;
         }
 
@@ -41,13 +41,14 @@
             font-size: 18px;
             font-weight: bold;
             text-align: center;
+            border-bottom: 1px solid #ddd;
         }
 
         .chat-box {
             flex-grow: 1;
             padding: 20px;
             overflow-y: auto;
-            background-color: #f7f7f8; /* Light background for the chat box */
+            background-color: #f7f7f7; /* Light background for the chat box */
             display: flex;
             flex-direction: column;
             gap: 15px;
@@ -69,6 +70,8 @@
             background-color: #f0f0f0; /* Light gray for bot's messages */
             align-self: flex-start;
             border: 1px solid #e2e2e2;
+            border-radius: 12px;
+            max-width: 80%;
         }
 
         .user-message {
@@ -76,6 +79,8 @@
             color: white;
             align-self: flex-end;
             border: 1px solid #0078d4;
+            border-radius: 12px;
+            max-width: 80%;
         }
 
         .typing-indicator {
@@ -104,7 +109,7 @@
         }
 
         input[type="text"]:focus {
-            border: 1px solid #0078d4; /* Blue border when the input is focused */
+            border: 1px solid #0078d4; /* Blue border when focused */
         }
 
         button {
@@ -178,6 +183,7 @@
                 width: 80%;
             }
         }
+
     </style>
 </head>
 <body>
@@ -251,7 +257,7 @@
             "hi": "Hey there! 👋 How can I help you with HTML today?",
             "hello": "Hi! 🙋‍♂️ What HTML topic can I assist you with?",
             "oye": "Yo! 😄 Ask me anything about HTML, and I'll do my best to help.",
-            "baat suno": "Haha, I'm all ears! 😁 Ask me about HTML, and I'll give you the details.",
+            "baat sun": "Haha, I'm all ears! 😁 Ask me about HTML, and I'll give you the details.",
             "html": "HTML stands for HyperText Markup Language. It's used to structure the content on the web. Curious about the tags or structure? Ask me!",
             "html basics": "HTML basics include tags like <html>, <head>, <body>, and elements like <div>, <p>, <h1>, <a>, etc. Want to dive into specific elements?",
             "how to center a div": "To center a div using CSS, you can do something like this: `display: flex; justify-content: center; align-items: center;` Simple, right?",
