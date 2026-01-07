@@ -152,7 +152,7 @@
 
     <div class="chat-box" id="chat-box">
         <div class="chat-message bot-message">
-            <p>Hi! I'm here to help you with HTML. Ask me anything!</p>
+            <p>Hi! I'm here to help you with HTML. Ask me anything! 😊</p>
         </div>
     </div>
 
@@ -204,21 +204,19 @@
     // Function to generate bot responses based on HTML-related questions
     function getBotResponse(userInput) {
         const responses = {
-            "hi": "Hello! How can I help you with HTML?",
-            "hello": "Hi there! Feel free to ask me anything about HTML.",
-            "html": "HTML stands for HyperText Markup Language. It is the standard language for creating web pages.",
-            "html basics": "HTML (Hypertext Markup Language) is used to structure content on the web. It includes elements like <html>, <head>, <body>, <div>, <p>, <h1>, etc.",
-            "how to center a div": "To center a div, you can use the following CSS: `display: flex; justify-content: center; align-items: center;`",
-            "what is a div": "A <div> is a block-level element used to group content together.",
-            "what is html5": "HTML5 is the latest version of HTML, which introduces new elements and attributes for modern web design.",
-            "what is html": "HTML stands for HyperText Markup Language. It is used to create and structure content on the web.",
-            "html structure": "The basic structure of an HTML document includes <html>, <head>, and <body> elements. Inside <body>, you can add elements like <h1>, <p>, <div>, etc.",
-            "default": "I'm sorry, I don't have an answer to that. But this is an HTML-related chatbot, feel free to ask anything about HTML!"
+            "hi": "Hey there! 👋 How can I help you with HTML today?",
+            "hello": "Hi! 🙋‍♂️ How can I assist you with HTML?",
+            "html": "HTML stands for HyperText Markup Language. It is the language used to create and structure content on the web. Want to know more? Feel free to ask!",
+            "html basics": "HTML basics are simple! It involves using tags like <html>, <head>, and <body>. The body contains the actual content like headings, paragraphs, links, and images.",
+            "how to center a div": "To center a div using CSS, you can do something like this: `display: flex; justify-content: center; align-items: center;`. Simple, right?",
+            "what is a div": "A <div> is a container element used to group other elements and structure the page. It's like a box to hold your content.",
+            "what is html5": "HTML5 is the latest version of HTML, and it brings cool new features like semantic elements, the <video> tag, and more. It's all about making the web more interactive!",
+            "default": "Hmm, I'm not sure what you're asking, but if it’s HTML-related, ask away! I’ll try to help out. 😊"
         };
 
+        // Normalize the user input to lower case and check if it matches any known responses
         userInput = userInput.toLowerCase().trim();
 
-        // Check if the input matches any predefined HTML questions or common greetings
         if (responses[userInput]) {
             return responses[userInput];
         } else {
