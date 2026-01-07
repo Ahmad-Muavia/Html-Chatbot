@@ -13,7 +13,7 @@
 
         body {
             font-family: 'Arial', sans-serif;
-            background-color: #121212; /* Black background */
+            background-color: #1e1e1e; /* Black background */
             color: #ddd; /* Light gray text color */
             display: flex;
             justify-content: center;
@@ -26,7 +26,7 @@
             width: 90%;
             max-width: 800px;
             height: 80vh;
-            background-color: #2c2c2c; /* Dark gray background for chat container */
+            background-color: #2c2c2c; /* Dark gray container background */
             border-radius: 12px;
             display: flex;
             flex-direction: row;
@@ -40,8 +40,8 @@
             width: 250px;
             height: 100%;
             overflow-y: auto;
-            color: #bbb; /* Light gray color for text */
-            border-right: 2px solid #444; /* Gray border to separate history panel */
+            color: #bbb; /* Light gray text for history */
+            border-right: 2px solid #444; /* Gray border to separate history */
         }
 
         .chat-box {
@@ -49,7 +49,6 @@
             padding: 20px;
             overflow-y: auto;
             background-color: #333; /* Dark gray background for chat messages */
-            border-left: 2px solid #444; /* Border to separate the chat box from the history */
             display: flex;
             flex-direction: column;
         }
@@ -60,7 +59,6 @@
             border-radius: 12px;
             font-size: 16px;
             line-height: 1.4;
-            transition: all 0.3s ease;
             margin-bottom: 10px;
         }
 
@@ -81,8 +79,6 @@
             border: none;
             border-radius: 8px;
             margin: 10px;
-            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-            outline: none;
             background-color: #444;
             color: white;
         }
@@ -100,19 +96,18 @@
             border-radius: 8px;
             font-size: 16px;
             cursor: pointer;
-            transition: all 0.3s ease;
             display: flex;
             justify-content: center;
             align-items: center;
+            transition: background-color 0.3s ease;
         }
 
         .send-upload-btn:hover {
             background-color: #0056b3; /* Button hover effect */
-            transform: translateY(-3px);
         }
 
         .send-upload-btn:active {
-            transform: translateY(1px);
+            transform: translateY(1px); /* Button click effect */
         }
 
         .chat-box::-webkit-scrollbar {
@@ -135,6 +130,7 @@
                 max-width: none;
                 height: 100%;
             }
+
             .chat-history-panel {
                 width: 100%;
                 height: 200px;
@@ -142,7 +138,6 @@
                 border-bottom: 2px solid #444;
             }
         }
-
     </style>
 </head>
 <body>
