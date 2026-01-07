@@ -203,6 +203,8 @@
     // Function to generate bot responses based on HTML-related questions
     function getBotResponse(userInput) {
         const responses = {
+            "hi": "Hello! How can I help you with HTML?",
+            "hello": "Hi there! Feel free to ask me anything about HTML.",
             "html": "HTML stands for HyperText Markup Language. It is the standard language for creating web pages.",
             "how to center a div": "To center a div, you can use the following CSS: `display: flex; justify-content: center; align-items: center;`",
             "what is a div": "A <div> is a block-level element used to group content together.",
@@ -212,7 +214,7 @@
 
         userInput = userInput.toLowerCase().trim();
 
-        // Check if the input matches any predefined HTML questions
+        // Check if the input matches any predefined HTML questions or common greetings
         if (responses[userInput]) {
             return responses[userInput];
         } else {
