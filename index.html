@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HTML Chatbot</title>
     <style>
-        /* Reset styles for a cleaner start */
         * {
             margin: 0;
             padding: 0;
@@ -25,12 +24,12 @@
 
         .chat-container {
             width: 90%;
-            max-width: 600px;
-            height: 90vh;
+            max-width: 800px;
+            height: 80vh;
             background-color: #2c2c2c; /* Dark gray background for chat container */
             border-radius: 12px;
             display: flex;
-            flex-direction: column;
+            flex-direction: row;
             overflow: hidden;
             box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.3);
         }
@@ -50,7 +49,7 @@
             padding: 20px;
             overflow-y: auto;
             background-color: #333; /* Dark gray background for chat messages */
-            border-bottom: 2px solid #444; /* Subtle gray line separating chat box */
+            border-left: 2px solid #444; /* Border to separate the chat box from the history */
             display: flex;
             flex-direction: column;
         }
@@ -75,22 +74,8 @@
             align-self: flex-end;
         }
 
-        .file-upload-btn {
-            background-color: #666; /* Button color */
-            color: white;
-            padding: 10px;
-            border: none;
-            cursor: pointer;
-            border-radius: 8px;
-            transition: background-color 0.3s ease;
-        }
-
-        .file-upload-btn:hover {
-            background-color: #444; /* Button hover color */
-        }
-
         input[type="text"] {
-            width: 80%;
+            width: 75%;
             padding: 12px;
             font-size: 16px;
             border: none;
@@ -98,30 +83,35 @@
             margin: 10px;
             box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
             outline: none;
+            background-color: #444;
+            color: white;
         }
 
         input[type="text"]:focus {
             box-shadow: 0px 2px 10px rgba(0, 0, 255, 0.3); /* Blue focus effect */
         }
 
-        button {
+        .send-upload-btn {
             width: 15%;
             padding: 12px;
             border: none;
-            background-color: #007BFF; /* Button color */
+            background-color: #007BFF; /* Blue background for button */
             color: white;
             border-radius: 8px;
             font-size: 16px;
             cursor: pointer;
             transition: all 0.3s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
-        button:hover {
+        .send-upload-btn:hover {
             background-color: #0056b3; /* Button hover effect */
             transform: translateY(-3px);
         }
 
-        button:active {
+        .send-upload-btn:active {
             transform: translateY(1px);
         }
 
@@ -152,6 +142,7 @@
                 border-bottom: 2px solid #444;
             }
         }
+
     </style>
 </head>
 <body>
@@ -169,10 +160,12 @@
         </div>
     </div>
 
-    <input type="text" id="user-input" placeholder="Ask a question..." />
-    <button onclick="sendMessage()">Send</button>
-    <button class="file-upload-btn" onclick="document.getElementById('file-input').click()">Upload HTML File</button>
-    <input type="file" id="file-input" style="display:none" onchange="handleFileUpload(event)" />
+    <div style="display: flex; align-items: center; justify-content: space-between; padding: 10px;">
+        <input type="text" id="user-input" placeholder="Ask a question..." onkeypress="checkEnter(event)" />
+        <button class="send-upload-btn" onclick="sendMessage()">🔊</button>
+        <button class="send-upload-btn" onclick="document.getElementById('file-input').click()">📁</button>
+        <input type="file" id="file-input" style="display:none" onchange="handleFileUpload(event)" />
+    </div>
 </div>
 
 <script>
@@ -259,11 +252,11 @@
     }
 
     // Trigger send message on pressing the Enter key
-    document.getElementById("user-input").addEventListener("keypress", function(event) {
+    function checkEnter(event) {
         if (event.key === "Enter") {
             sendMessage(); // Send message when Enter is pressed
         }
-    });
+    }
 </script>
 
 </body>
